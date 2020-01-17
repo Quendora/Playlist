@@ -2,6 +2,7 @@
 #include <vector>
 #include <random>
 #include <memory>
+#include <algorithm>
 
 //TODO (INFO) IMPLEMENTUJEMY ZAIMPLEMENTOWAC WZORZEC 'COMPOSITE'
 
@@ -40,15 +41,18 @@ public:
 class ShuffleMode : public PlayMode
 {
 public:
-    ShuffleMode(int seed);
+    ShuffleMode(int seed) : seed(seed) {}
 
     void play(const std::vector<std::shared_ptr<Composite>> &composites) override
-    {
-
+    {   
+        std::shuffle(composites.begin(), composites.end(), std::default_random_engine(seed));
+        for(const auto& comp: composites) {
+            comp->play();
+        }
     }
 
 private:
-    std::default_random_engine e;
+    int seed;
 };
 
 class OddEvenMode : public PlayMode
