@@ -45,9 +45,12 @@ public:
 
     void play(const std::vector<std::shared_ptr<Composite>> &composites) override
     {   
-        std::shuffle(composites.begin(), composites.end(), std::default_random_engine(seed));
-        for(const auto& comp: composites) {
-            comp->play();
+        std::vector<size_t> indexes(composites.size());
+        std::iota(indexes.begin(), indexes.end(), 0);
+
+        std::shuffle(indexes.begin(), indexes.end(), std::default_random_engine(seed));
+        for(const auto& i: indexes) {
+            composites[i]->play();
         }
     }
 
