@@ -1,10 +1,9 @@
+#include <utility>
 #include <vector>
 #include <random>
+#include <memory>
 
-//TODO CHCEMY ZAIMPLEMENTOWAC WZORZEC 'COMPOSITE'
-
-//TODO JAK TO ZROBIC ZEBY DO DO PLAYLISTY ODWOLYWALO SIE PRZEZ ->
-
+//TODO (INFO) IMPLEMENTUJEMY ZAIMPLEMENTOWAC WZORZEC 'COMPOSITE'
 
 class PlayerException : std::exception
 {
@@ -22,17 +21,18 @@ public:
 class PlayMode
 {
 public:
-    virtual void play(const std::vector<Composite> &composites) = 0;
+    virtual void play(const std::vector<std::shared_ptr<Composite>> &composites) = 0;
 };
 
 
 class SequenceMode : public PlayMode
 {
-    void play(const std::vector<Composite> &composites)
+public:
+    void play(const std::vector<std::shared_ptr<Composite>> &composites) override
     {
-        for (Composite composite: composites)
+        for (const std::shared_ptr<Composite>& composite: composites)
         {
-            composite.play();
+            composite->play();
         }
     }
 };
@@ -42,7 +42,10 @@ class ShuffleMode : public PlayMode
 public:
     ShuffleMode(int seed);
 
-    void play(const std::vector<Composite> &composites);
+    void play(const std::vector<std::shared_ptr<Composite>> &composites) override
+    {
+
+    }
 
 private:
     std::default_random_engine e;
@@ -50,7 +53,19 @@ private:
 
 class OddEvenMode : public PlayMode
 {
-    void play(const std::vector<Composite> &composites);
+public:
+    void play(const std::vector<std::shared_ptr<Composite>> &composites) override
+    {
+        for (unsigned long i = 1; i < composites.size(); i += 2)
+        {
+            composites[i]->play();
+        }
+
+        for (unsigned long i = 0; i < composites.size(); i += 2)
+        {
+            composites[i]->play();
+        }
+    }
 };
 
 class File : public Composite
@@ -62,31 +77,38 @@ class File : public Composite
 class Song : public File
 {
 public:
-    void play();
+    void play() override
+    {
+
+    }
 };
 
 class Movie : public File
 {
 public:
-    void play();
+    void play() override
+    {
+
+    }
 };
 
 class Playlist : public Composite
 {
 public:
 
-    Playlist(std::string name)
+    explicit Playlist(std::string playListName)
     {
-        this->name = name;
-        this->mode = SequenceMode();
+        // czy tutaj moze byc move
+        this->name = std::move(playListName);
+        this->mode = std::make_shared<SequenceMode>();
     }
 
-    void add(Composite composite)
+    void add(const std::shared_ptr<Composite>& composite)
     {
         composites.push_back(composite);
     }
 
-    void add(const Composite composite, unsigned int position)
+    void add(const std::shared_ptr<Composite>& composite, unsigned int position)
     {
         composites.insert(composites.begin() + position, composite);
     }
@@ -101,17 +123,21 @@ public:
         composites.erase(composites.begin() + position);
     }
 
-    void setMode(PlayMode mode)
+    void setMode(std::shared_ptr<PlayMode> playMode)
     {
-        this->mode = mode;
+        //czy tutaj moze byc move
+        this->mode = std::move(playMode);
     }
 
-    void play();
+    void play() override
+    {
+        mode->play(composites);
+    }
 
 private:
     std::string name;
-    std::vector<Composite> composites;
-    PlayMode mode;
+    std::vector<std::shared_ptr<Composite>> composites;
+    std::shared_ptr<PlayMode> mode;
 };
 
 class Player
@@ -119,24 +145,24 @@ class Player
 public:
     File openFile(File file);
 
-    Playlist createPlaylist(std::string name)
+    std::shared_ptr<Playlist> createPlaylist(std::string name)
     {
-        return Playlist(name);
+        //tczy tutaj moze byc move
+        return std::make_shared<Playlist>(Playlist(std::move(name)));
     }
 };
 
-ShuffleMode createShuffleMode(
-        int seed) //TODO Nwm czy to powinno tak latać w przestrzeni, pewnie nie :v
+std::shared_ptr<ShuffleMode> createShuffleMode(int seed)
 {
-    return ShuffleMode(seed);
+    return std::make_shared<ShuffleMode>(seed);
 }
 
-OddEvenMode createOddEvenMode() //TODO Nwm czy to powinno tak latać w przestrzeni, pewnie nie :v
+std::shared_ptr<OddEvenMode> createOddEvenMode()
 {
-    return OddEvenMode();
+    return std::make_shared<OddEvenMode>();
 }
 
-SequenceMode createSequenceMode() //TODO Nwm czy to powinno tak latać w przestrzeni, pewnie nie :v
+std::shared_ptr<SequenceMode> createSequenceMode()
 {
-    return SequenceMode();
+    return std::make_shared<SequenceMode>();
 }
