@@ -1,80 +1,52 @@
 #include "file.h"
 
 File::File(const std::string &fileString) {
-  if (!validateFileString(fileString)) {
-    //jakies lepsze exception?
-    //throw PlayerException();
-  }
   extractData(fileString);
-
-  //if (!validateMetadata()) { //lol gdzies to zgubiłem xd
-    //thron exception
-  //}
 }
 
-std::shared_ptr<Media> File::generateMedia() {
-  std::shared_ptr<Media> media;
-
-  switch (media_type)
-  {
-  case VIDEO:
-    //zrobic ROT13
-    media = std::make_shared<Movie>(metadata, content);
-    break;
-
-  case AUDIO:
-    media = std::make_shared<Song>(metadata, content);
-    break;
-  }
-
-  return media;
+std::string File::getType() const {
+  return fileType;
 }
 
-std::string File::getSupportedMediaType() const {
-  static std::string audio = "audio"; //czy to mozna zrobic jakos lepiej? cos jak ala styczne pole w klasie? potem potrzebuje to samo przy extract data
-  static std::string video = "video";
-
-  static std::string supportedMediaType = audio + "|" + video;
-  return supportedMediaType;
+MetadataMap File::getMetadata() const {
+  return metadata;
 }
 
-bool File::validateFileString(const std::string &fileString)
-{
-  static std::regex rgx("^(video|audio)\\|([^\\|]+:[^|]*\\|){2,}[^\\|]+$"); //czy w metadanych moze byc ':' (w nazwie albo wartosci)?
-  return std::regex_match(fileString, rgx);
+std::string File::getContent() const {
+  return content;
 }
 
-void File::extractData(std::string fileString) { //przekazujemy string przez wartość, poniewaz bedziemy go niszczyc
-  static std::string audio = "audio";
-  static std::string video = "video";
-  static std::string delimiter = "|";
-  static std::string metadataDelimiter = ":";
-  size_t pos = 0, metaPos = 0;
+void File::extractData(const std::string& fileString) { //przekazujemy string przez wartość, poniewaz bedziemy go niszczyc
+  static std::regex regex("^([^\\|]+)\\|(([^\\|]+:[^\\|]*\\|)*)([a-zA-Z0-9,.!':;\\?\\-]+)$");
+  static size_t typeGroup = 1, metadataGroup = 2, contentGroup = 4;
+  std::smatch match;
 
-  //extracting media type
-  pos = fileString.find(delimiter);
-  std::string media_type_str = fileString.substr(0, pos);
-  if (media_type_str.compare(audio)) {
-    media_type = AUDIO;
-  }
-  else if (media_type_str.compare(video)) {
-    media_type = VIDEO;
-  }
-  fileString.erase(0, pos + delimiter.length());
-
-  //extracting metadata
-  std::string meta;
-  while ((pos = fileString.find(delimiter)) != std::string::npos) {
-    meta = fileString.substr(0, pos);
-    metaPos = meta.find(metadataDelimiter);
-
-    std::string name = meta.substr(0, metaPos);
-    std::string data = meta.substr(metaPos + metadataDelimiter.length(), meta.length() - 1);
-    metadata.insert({name, data});
-
-    fileString.erase(0, pos + delimiter.length());
+  if(!std::regex_match(fileString, match, regex)) {
+    //throw invalid file description
   }
 
-  //remaining string is content
-  content = fileString;
+  extractFileType(match.str(typeGroup));
+  extractMetadata(match.str(metadataGroup));
+  extractContent(match.str(contentGroup));
+}
+
+void File::extractFileType(const std::string& typeString) {
+  fileType = typeString;
+}
+
+void File::extractMetadata(const std::string& metadataString) {
+  static std::regex regex("([^\\|]+):([^\\|]*)");
+
+  for(auto it = std::sregex_iterator(metadataString.begin(), metadataString.end(), regex);
+   it != std::sregex_iterator(); it++) {
+     std::smatch match = *it;
+     std::string name = match.str(1);
+     std::string value = match.str(2);
+
+     metadata.insert({name, value});
+  }
+}
+
+void File::extractContent(const std::string& contentString) {
+  content = contentString;
 }

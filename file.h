@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FILE_H
+#define FILE_H
 
 #include <string>
 #include <unordered_map>
@@ -11,7 +12,9 @@ class File
 public:
     File(const std::string& fileString);
 
-    std::shared_ptr<Media> generateMedia();
+    std::string getType() const;
+    MetadataMap getMetadata() const;
+    std::string getContent() const;
 
 private:
     enum MediaType {
@@ -19,11 +22,14 @@ private:
         AUDIO
     };
 
-    std::string getSupportedMediaType() const;
-    bool validateFileString(const std::string& fileString);
-    void extractData(std::string fileString);
+    void extractData(const std::string& fileString);
+    void extractFileType(const std::string& typeString);
+    void extractMetadata(const std::string& metadataString);
+    void extractContent(const std::string& contentString);
 
-    MediaType media_type;
-    std::unordered_map<std::string, std::string> metadata;
+    std::string fileType;
+    MetadataMap metadata;
     std::string content;
 };
+
+#endif

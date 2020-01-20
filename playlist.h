@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLAYLIST_H
+#define PLAYLIST_H
 
 #include <memory>
 #include <vector>
@@ -10,10 +11,9 @@ class Playlist : public Playable
 {
 public:
 
-    explicit Playlist(std::string playListName)
+    explicit Playlist(const std::string& playListName)
     {
-        // czy tutaj moze byc move
-        this->name = std::move(playListName);
+        this->name = playListName;
         this->mode = std::make_shared<SequenceMode>();
     }
 
@@ -53,3 +53,5 @@ private:
     std::vector<std::shared_ptr<Playable>> playables;
     std::shared_ptr<PlayMode> mode;
 };
+
+#endif

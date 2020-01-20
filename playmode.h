@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PLAYMODE_H
+#define PLAYMODE_H
 
 #include <vector>
 #include <memory>
@@ -62,7 +63,7 @@ public:
     }
 };
 
-std::shared_ptr<ShuffleMode> createShuffleMode(int seed)
+/*std::shared_ptr<ShuffleMode> createShuffleMode(int seed)
 {
     return std::make_shared<ShuffleMode>(seed);
 }
@@ -77,4 +78,6 @@ std::shared_ptr<SequenceMode> createSequenceMode()
 {
     //statyczna zmienna i ja zwracac?
     return std::make_shared<SequenceMode>();
-}
+}*/
+
+#endif

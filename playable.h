@@ -1,6 +1,9 @@
-#pragma once
+#ifndef PLAYABLE_H
+#define PLAYABLE_H
 
 #include <unordered_map>
+
+using MetadataMap = std::unordered_map<std::string, std::string>;
 
 class Playable
 {
@@ -11,24 +14,26 @@ public:
 class Media : public Playable
 {
 public:
-  Media(const std::unordered_map<std::string, std::string>& metadata, const std::string& content);
+  Media(const MetadataMap& metadata, const std::string& content);
   virtual void play() = 0;
 
 protected:
   std::string content;
-  std::unordered_map<std::string, std::string> metadata;
+  MetadataMap metadata;
 };
 
 class Song : public Media
 {
 public:
-    Song(const std::unordered_map<std::string, std::string>& metadata, const std::string& content);
+    Song(const MetadataMap& metadata, const std::string& content);
     void play() override;
 };
 
 class Movie : public Media
 {
 public:
-    Movie(const std::unordered_map<std::string, std::string>& metadata, const std::string& content);
+    Movie(const MetadataMap& metadata, const std::string& content);
     void play() override;
 };
+
+#endif
