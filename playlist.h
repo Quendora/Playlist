@@ -11,42 +11,14 @@ class Playlist : public Playable
 {
 public:
 
-    explicit Playlist(const std::string& playListName)
-    {
-        this->name = playListName;
-        this->mode = std::make_shared<SequenceMode>();
-    }
+    explicit Playlist(const std::string& playListName);
 
-    void add(const std::shared_ptr<Playable>& playable)
-    {
-        playables.push_back(playable);
-    }
-
-    void add(const std::shared_ptr<Playable>& playable, unsigned int position)
-    {
-        playables.insert(playables.begin() + position, playable);
-    }
-
-    void remove()
-    {
-        playables.pop_back();
-    }
-
-    void remove(unsigned int position)
-    {
-        playables.erase(playables.begin() + position);
-    }
-
-    void setMode(std::shared_ptr<PlayMode> playMode)
-    {
-        //czy tutaj moze byc move
-        this->mode = std::move(playMode);
-    }
-
-    void play() override
-    {
-        mode->play_mode(playables);
-    }
+    void add(const std::shared_ptr<Playable>& playable);
+    void add(const std::shared_ptr<Playable>& playable, unsigned int position);
+    void remove();
+    void remove(unsigned int position);
+    void setMode(std::shared_ptr<PlayMode> playMode);
+    void play() override;
 
 private:
     std::string name;
