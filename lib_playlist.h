@@ -70,8 +70,7 @@ public:
 
 class File : public Composite
 {
-    void
-    play() override = 0; //TODO Clang krzyczy ze zamiast virtual ma byc override
+    void play() override = 0; //TODO Clang krzyczy ze zamiast virtual ma byc override
 };
 
 class Song : public File
