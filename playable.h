@@ -34,6 +34,9 @@ class Movie : public Media
 public:
     Movie(const MetadataMap& metadata, const std::string& content);
     void play() override;
+
+private:
+  std::string ROT13(const std::string& source);  
 };
 
 #endif
