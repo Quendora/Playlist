@@ -40,7 +40,7 @@ int main() {
     mishmash->setMode(createSequenceMode());
     mishmash->play();
 
-    /*try {
+    try {
         auto unsupported = player.openFile(File("mp3|artist:Unsupported|title:Unsupported|Content"));
     } catch (PlayerException const& e) {
         std::cout << e.what() << std::endl;
@@ -56,7 +56,7 @@ int main() {
         auto corrupted = player.openFile(File("audio|artist:Louis Armstrong|title:Hello, Dolly!|%#!@*&"));
     } catch (PlayerException const& e) {
         std::cout << e.what() << std::endl;
-    }*/
+    }
 
     return 0;
 }

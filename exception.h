@@ -6,20 +6,39 @@
 class PlayerException : public std::exception
 {
 public:
-    //FIXME Jak zamiast override wpisze virtual to Clang krzyczy
     virtual const char* what() const throw () = 0;
 };
 
-class InvalidMediaType : public PlayerException
+class UnsupportedMediaType : public PlayerException
 {
 public:
-  const char* what() const throw();
+  const char* what() const throw() override;
 };
 
 class InvalidMetadata : public PlayerException
 {
 public:
-  const char* what() const throw();
+  const char* what() const throw() override;
+};
+
+class CorruptedFile : public PlayerException {
+public:
+  const char* what() const throw() override;
+};
+
+class CycleFound : public PlayerException {
+public:
+  const char* what() const throw() override;
+};
+
+class PlaylistOutOfRange : public PlayerException {
+public:
+  const char* what() const throw() override;
+};
+
+class CorruptedContent : public PlayerException {
+public:
+  const char* what() const throw() override;
 };
 
 #endif

@@ -17,9 +17,10 @@ class Media : public Playable
 public:
   Media(const MetadataMap& metadata, const std::string& content);
   virtual void play() = 0;
-  bool checkForCycle(const Playable* const playable) const override;
 
 protected:
+  bool checkForCycle(const Playable* const playable) const override;
+
   std::string content;
   MetadataMap metadata;
 };

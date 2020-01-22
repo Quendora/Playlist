@@ -19,13 +19,13 @@ public:
     void remove(unsigned int position);
     void setMode(const std::shared_ptr<PlayMode> playMode);
     void play() override;
-    bool checkForCycle(const Playable* const playable) const override;
+    
 private:
     std::string name;
     std::vector<std::shared_ptr<Playable>> playables;
     std::shared_ptr<PlayMode> mode;
 
-    //bool checkForCycle(const Playable* const playable) const override;
+    bool checkForCycle(const Playable* const playable) const override;
     bool checkForCycleBeforeAdding(const std::shared_ptr<Playable>& playable);
 };
 

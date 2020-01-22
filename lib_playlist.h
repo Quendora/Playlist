@@ -2,10 +2,6 @@
 #define LIB_PLAYLIST_H
 
 #include "exception.h"
-#include "playable.h"
-#include "playmode.h"
-#include "playlist.h"
-#include "file.h"
 #include "player.h"
 
 #endif
