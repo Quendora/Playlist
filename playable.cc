@@ -26,11 +26,13 @@ Movie::Movie(const MetadataMap& metadata, const std::string& content)
   }
 
 void Song::play() {
-  std::cout << "testing song: " << metadata["title"] << std::endl << content << std::endl;
+    std::cout << "Song [" + metadata["artist"] + ", " + metadata["title"] +
+    "]: " + content << "\n";
 }
 
 void Movie::play() {
-  std::cout << "testing movie: " << metadata["title"] << std::endl << content << std::endl;
+    std::cout << "Movie [" + metadata["title"] + ", " + metadata["year"] +
+            "]: " + content << "\n";
 }
 
 std::string Movie::ROT13(const std::string& source) {

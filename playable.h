@@ -22,9 +22,6 @@ public:
 protected:
   std::string content;
   MetadataMap metadata;
-
-//private:
-  //bool checkForCycle(const Playable* const playable) const override;
 };
 
 class Song : public Media

@@ -1,4 +1,5 @@
 #include "playlist.h"
+#include <iostream>
 
 Playlist::Playlist(const std::string& playListName) {
   this->name = playListName;
@@ -24,7 +25,7 @@ void Playlist::add(const std::shared_ptr<Playable>& playable, unsigned int posit
 }
 
 void Playlist::remove() {
-  playables.pop_back();
+  playables).pop_back();
 }
 
 void Playlist::remove(unsigned int position) {
@@ -36,6 +37,7 @@ void Playlist::setMode(const std::shared_ptr<PlayMode> playMode) {
 }
 
 void Playlist::play() {
+    std::cout << "Playlist [" + name + "]\n";
   mode->play_mode(playables);
 }
 

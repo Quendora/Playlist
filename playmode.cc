@@ -18,7 +18,7 @@ void ShuffleMode::play_mode(const std::vector<std::shared_ptr<Playable>> &playab
   }
 }
 
-void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) {
+void OddEvenMode::play_mode(const std::vector<std::shared_ptr<Playable>> &playables) {
   for (unsigned long i = 1; i < playables.size(); i += 2) {
     playables[i]->play();
   }
