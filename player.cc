@@ -1,4 +1,5 @@
 #include "player.h"
+#include "exception.h"
 
 Player::Player() {
   registerMediaTypes();
@@ -17,7 +18,7 @@ std::shared_ptr<Media> Player::openFile(const File& file) {
   auto media = supportedMedia.find(file.getType());
 
   if(media == supportedMedia.end()) {
-    //throw invalid type
+    throw UnsupportedMediaType();
   }
 
   return media->second(file.getMetadata(), file.getContent());

@@ -1,4 +1,6 @@
 #include "playlist.h"
+#include "exception.h"
+
 #include <iostream>
 
 Playlist::Playlist(const std::string& playListName) {
@@ -8,7 +10,7 @@ Playlist::Playlist(const std::string& playListName) {
 
 void Playlist::add(const std::shared_ptr<Playable>& playable) {
   if(checkForCycleBeforeAdding(playable)) {
-
+    throw CycleFound();
   }
   
   playables.push_back(playable);
@@ -16,10 +18,10 @@ void Playlist::add(const std::shared_ptr<Playable>& playable) {
 
 void Playlist::add(const std::shared_ptr<Playable>& playable, unsigned int position) {
   if(position > playables.size()) {
-    //throw invalid position
+    throw PlaylistOutOfRange();
   }
   if(checkForCycleBeforeAdding(playable)) {
-    //throw cycle
+    throw CycleFound();
   }
   playables.insert(playables.begin() + position, playable);
 }
@@ -29,6 +31,9 @@ void Playlist::remove() {
 }
 
 void Playlist::remove(unsigned int position) {
+  if(position >= playables.size()) {
+    throw PlaylistOutOfRange();
+  }
   playables.erase(playables.begin() + position);
 }
 

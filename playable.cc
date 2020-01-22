@@ -1,7 +1,9 @@
 #include "playable.h"
+#include "exception.h"
 
 #include <iostream>
 #include <algorithm>
+#include <regex>
 
 Media::Media(const MetadataMap& metadata, const std::string& content)
   : content(content), metadata(metadata) {}
@@ -12,8 +14,8 @@ bool Media::checkForCycle(__attribute__((unused)) const Playable* const playable
 
 Song::Song(const MetadataMap& metadata, const std::string& content)
   : Media(metadata, content) {
-    if(this->metadata.find("title") == this->metadata.end() || this->metadata.find("year") == this->metadata.end()) {
-      //throw exception
+    if(this->metadata.find("title") == this->metadata.end() || this->metadata.find("artist") == this->metadata.end()) {
+      throw InvalidMetadata();
     }
   }
 
@@ -21,7 +23,15 @@ Song::Song(const MetadataMap& metadata, const std::string& content)
 Movie::Movie(const MetadataMap& metadata, const std::string& content)
   : Media(metadata, ROT13(content)) {
     if(this->metadata.find("title") == this->metadata.end() || this->metadata.find("year") == this->metadata.end()) {
-      //throw exception
+      throw InvalidMetadata();
+    }
+
+    static std::regex regex("^-?[0-9]*$");
+    std::smatch match;
+
+    if (!std::regex_match(metadata.at("year"), match, regex))
+    {
+        throw YearNotANumber();
     }
   }
 

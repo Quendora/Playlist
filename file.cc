@@ -1,4 +1,5 @@
 #include "file.h"
+#include "exception.h"
 
 File::File(const std::string &fileString) {
   extractData(fileString);
@@ -16,13 +17,13 @@ std::string File::getContent() const {
   return content;
 }
 
-void File::extractData(const std::string& fileString) { //przekazujemy string przez wartość, poniewaz bedziemy go niszczyc
-  static std::regex regex("^([^\\|]+)\\|(([^\\|]+:[^\\|]*\\|)*)([a-zA-Z0-9\\s,.!':;\\?\\-]+)$");
+void File::extractData(const std::string& fileString) {
+  static std::regex regex("^([^\\|]+)\\|(([^\\|]+:[^\\|]*\\|)*)([^\\|]*)$");
   static size_t typeGroup = 1, metadataGroup = 2, contentGroup = 4;
   std::smatch match;
 
   if(!std::regex_match(fileString, match, regex)) {
-    //throw invalid file description
+    throw CorruptedFile();
   }
 
   extractFileType(match.str(typeGroup));
@@ -48,5 +49,10 @@ void File::extractMetadata(const std::string& metadataString) {
 }
 
 void File::extractContent(const std::string& contentString) {
+  static std::regex regex("^[a-zA-Z0-9\\s,.!':;\?\\-]*$");
+  if(!std::regex_match(contentString, regex)) {
+    throw CorruptedContent();
+  }
+
   content = contentString;
 }
