@@ -17,7 +17,7 @@ std::string File::getContent() const {
 }
 
 void File::extractData(const std::string& fileString) { //przekazujemy string przez wartość, poniewaz bedziemy go niszczyc
-  static std::regex regex("^([^\\|]+)\\|(([^\\|]+:[^\\|]*\\|)*)([a-zA-Z0-9,.!':;\\?\\-]+)$");
+  static std::regex regex("^([^\\|]+)\\|(([^\\|]+:[^\\|]*\\|)*)([a-zA-Z0-9\\s,.!':;\\?\\-]+)$");
   static size_t typeGroup = 1, metadataGroup = 2, contentGroup = 4;
   std::smatch match;
 
