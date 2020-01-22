@@ -8,7 +8,7 @@ Playlist::Playlist(const std::string& playListName) {
 
 void Playlist::add(const std::shared_ptr<Playable>& playable) {
   if(checkForCycleBeforeAdding(playable)) {
-    //throw cycle exception
+
   }
   
   playables.push_back(playable);
