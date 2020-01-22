@@ -6,9 +6,8 @@
 Media::Media(const MetadataMap& metadata, const std::string& content)
   : content(content), metadata(metadata) {}
 
-bool Media::checkForCycle(Playlist* playlist)
-{
-    return false;
+bool Media::checkForCycle(__attribute__((unused)) const Playable* const playable) const {
+  return false;
 }
 
 Song::Song(const MetadataMap& metadata, const std::string& content)

@@ -6,12 +6,20 @@ Playlist::Playlist(const std::string& playListName) {
 }
 
 void Playlist::add(const std::shared_ptr<Playable>& playable) {
-  checkForCycleBeforeAdding();
+  if(checkForCycleBeforeAdding(playable)) {
+    //throw cycle exception
+  }
+  
   playables.push_back(playable);
 }
 
 void Playlist::add(const std::shared_ptr<Playable>& playable, unsigned int position) {
-  checkForCycleBeforeAdding();
+  if(position > playables.size()) {
+    //throw invalid position
+  }
+  if(checkForCycleBeforeAdding(playable)) {
+    //throw cycle
+  }
   playables.insert(playables.begin() + position, playable);
 }
 
@@ -23,35 +31,28 @@ void Playlist::remove(unsigned int position) {
   playables.erase(playables.begin() + position);
 }
 
-void Playlist::setMode(std::shared_ptr<PlayMode> playMode) {
-  //TODO czy tutaj moze byc move
-  this->mode = std::move(playMode);
+void Playlist::setMode(const std::shared_ptr<PlayMode> playMode) {
+  this->mode = playMode;
 }
 
 void Playlist::play() {
   mode->play_mode(playables);
 }
 
-bool Playlist::checkForCycleBeforeAdding()
-{
-    for (std::shared_ptr<Playable> playable: playables)
-    {
-        if (playable->checkForCycle(this)) return true;
-    }
-
-    return false;
+bool Playlist::checkForCycleBeforeAdding(const std::shared_ptr<Playable>& playable) {
+  return playable->checkForCycle(this);
 }
 
-bool Playlist::checkForCycle(Playlist* playlist)
-{
-    if (this == playlist) return true;
-    else
-    {
-        for (std::shared_ptr<Playable> playable: playables)
-        {
-            if (playable->checkForCycle(this)) return true;
-        }
+bool Playlist::checkForCycle(const Playable* const playable) const {
+  if(this == playable) {
+    return true;
+  }
 
-        return false;
+  for(const auto& el : playables) {
+    if(el->checkForCycle(playable)) {
+      return true;
     }
+  }
+
+  return false;
 }

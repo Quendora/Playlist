@@ -3,8 +3,8 @@
 
 #include "exception.h"
 #include "playable.h"
-#include "playlist.h"
 #include "playmode.h"
+#include "playlist.h"
 #include "file.h"
 #include "player.h"
 

@@ -28,16 +28,18 @@ void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) {
   }
 }
 
-std::shared_ptr<ShuffleMode> createShuffleMode(int seed) {
+std::shared_ptr<PlayMode> createShuffleMode(int seed) {
   return std::make_shared<ShuffleMode>(seed);
 }
 
-std::shared_ptr<OddEvenMode> createOddEvenMode() {
-  static auto oddEvenMode = std::make_shared<OddEvenMode>();
-  return oddEvenMode;
+std::shared_ptr<PlayMode> createOddEvenMode() {
+  return std::make_shared<OddEvenMode>();
+  //std::shared_ptr<PlayMode> oddEvenMode = std::make_shared<OddEvenMode>();
+  //return oddEvenMode;
 }
 
-std::shared_ptr<SequenceMode> createSequenceMode() {
-  static auto seqMode = std::make_shared<SequenceMode>();
-  return seqMode;
+std::shared_ptr<PlayMode> createSequenceMode() {
+  return std::make_shared<SequenceMode>();
+  //std::shared_ptr<PlayMode> seqMode = std::make_shared<SequenceMode>();
+  //return seqMode;
 }

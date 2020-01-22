@@ -17,16 +17,16 @@ public:
     void add(const std::shared_ptr<Playable>& playable, unsigned int position);
     void remove();
     void remove(unsigned int position);
-    void setMode(std::shared_ptr<PlayMode> playMode);
+    void setMode(const std::shared_ptr<PlayMode> playMode);
     void play() override;
-
+    bool checkForCycle(const Playable* const playable) const override;
 private:
     std::string name;
     std::vector<std::shared_ptr<Playable>> playables;
     std::shared_ptr<PlayMode> mode;
 
-    bool checkForCycle(Playlist* playlist) override;
-    bool checkForCycleBeforeAdding();
+    //bool checkForCycle(const Playable* const playable) const override;
+    bool checkForCycleBeforeAdding(const std::shared_ptr<Playable>& playable);
 };
 
 #endif

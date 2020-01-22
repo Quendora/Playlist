@@ -17,6 +17,7 @@ public:
 class SequenceMode : public PlayMode
 {
 public:
+    SequenceMode() = default;
     void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) override;
 };
 
@@ -24,7 +25,6 @@ class ShuffleMode : public PlayMode
 {
 public:
     ShuffleMode(int seed);
-
     void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) override;
 
 private:
@@ -34,11 +34,12 @@ private:
 class OddEvenMode : public PlayMode
 {
 public:
+    OddEvenMode() = default;
     void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) override;
 };
 
-std::shared_ptr<ShuffleMode> createShuffleMode(int seed);
-std::shared_ptr<OddEvenMode> createOddEvenMode();
-std::shared_ptr<SequenceMode> createSequenceMode();
+std::shared_ptr<PlayMode> createShuffleMode(int seed);
+std::shared_ptr<PlayMode> createOddEvenMode();
+std::shared_ptr<PlayMode> createSequenceMode();
 
 #endif
