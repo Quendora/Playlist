@@ -19,7 +19,7 @@ Song::Song(const MetadataMap& metadata, const std::string& content)
 
 
 Movie::Movie(const MetadataMap& metadata, const std::string& content)
-  : Media(metadata, content) {
+  : Media(metadata, ROT13(content)) {
     if(this->metadata.find("title") == this->metadata.end() || this->metadata.find("year") == this->metadata.end()) {
       //throw exception
     }

@@ -1,3 +1,6 @@
 a.out
 test.cc
 \.vscode/
+\.idea/
+CMakeLists.txt
+cmake-build-debug/
