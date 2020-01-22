@@ -1,7 +1,6 @@
 a.out
 test.cc
 \.vscode/
-playlist_example.cc
 .idea/
 CMakeLists.txt
 cmake-build-default

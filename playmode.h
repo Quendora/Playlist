@@ -17,7 +17,6 @@ public:
 class SequenceMode : public PlayMode
 {
 public:
-    SequenceMode() = default;
     void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) override;
 };
 
@@ -34,7 +33,6 @@ private:
 class OddEvenMode : public PlayMode
 {
 public:
-    OddEvenMode() = default;
     void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) override;
 };
 

@@ -25,7 +25,7 @@ void Playlist::add(const std::shared_ptr<Playable>& playable, unsigned int posit
 }
 
 void Playlist::remove() {
-  playables).pop_back();
+  playables.pop_back();
 }
 
 void Playlist::remove(unsigned int position) {
