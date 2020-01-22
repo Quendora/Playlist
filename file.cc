@@ -44,7 +44,7 @@ void File::extractMetadata(const std::string& metadataString) {
      std::string name = match.str(1);
      std::string value = match.str(2);
 
-     metadata.insert({name, value});
+     metadata.insert_or_assign(name, value);
   }
 }
 
