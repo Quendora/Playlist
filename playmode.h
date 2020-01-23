@@ -1,5 +1,4 @@
-#ifndef PLAYMODE_H
-#define PLAYMODE_H
+#pragma once
 
 #include <vector>
 #include <memory>
@@ -8,36 +7,33 @@
 
 #include "playable.h"
 
-class PlayMode
-{
+class PlayMode {
 public:
-    virtual void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) = 0;
+  virtual void play_mode(const std::vector<std::shared_ptr<Playable>>& playables) = 0;
 };
 
-class SequenceMode : public PlayMode
-{
+class SequenceMode : public PlayMode {
 public:
-    void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) override;
+  void play_mode(const std::vector<std::shared_ptr<Playable>>& playables) override;
 };
 
-class ShuffleMode : public PlayMode
-{
+class ShuffleMode : public PlayMode {
 public:
-    ShuffleMode(int seed);
-    void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) override;
+  ShuffleMode(int seed);
+
+  void play_mode(const std::vector<std::shared_ptr<Playable>>& playables) override;
 
 private:
-    std::default_random_engine random_engine;
+  std::default_random_engine random_engine;
 };
 
-class OddEvenMode : public PlayMode
-{
+class OddEvenMode : public PlayMode {
 public:
-    void play_mode(const std::vector<std::shared_ptr<Playable>> &playables) override;
+  void play_mode(const std::vector<std::shared_ptr<Playable>>& playables) override;
 };
 
 std::shared_ptr<PlayMode> createShuffleMode(int seed);
-std::shared_ptr<PlayMode> createOddEvenMode();
-std::shared_ptr<PlayMode> createSequenceMode();
 
-#endif
+std::shared_ptr<PlayMode> createOddEvenMode();
+
+std::shared_ptr<PlayMode> createSequenceMode();

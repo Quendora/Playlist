@@ -1,7 +1,4 @@
-#ifndef LIB_PLAYLLIS_H
-#define LIB_PLAYLIST_H
+#pragma once
 
 #include "exception.h"
 #include "player.h"
-
-#endif

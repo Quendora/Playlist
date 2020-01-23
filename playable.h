@@ -1,21 +1,20 @@
-#ifndef PLAYABLE_H
-#define PLAYABLE_H
+#pragma once
 
 #include <unordered_map>
 
 using MetadataMap = std::unordered_map<std::string, std::string>;
 
-class Playable
-{
+class Playable {
 public:
-    virtual void play() = 0;
-    virtual bool checkForCycle(const Playable* const playable) const = 0;
+  virtual void play() = 0;
+
+  virtual bool checkForCycle(const Playable* const playable) const = 0;
 };
 
-class Media : public Playable
-{
+class Media : public Playable {
 public:
   Media(const MetadataMap& metadata, const std::string& content);
+
   virtual void play() = 0;
 
 protected:
@@ -25,21 +24,19 @@ protected:
   MetadataMap metadata;
 };
 
-class Song : public Media
-{
+class Song : public Media {
 public:
-    Song(const MetadataMap& metadata, const std::string& content);
-    void play() override;
+  Song(const MetadataMap& metadata, const std::string& content);
+
+  void play() override;
 };
 
-class Movie : public Media
-{
+class Movie : public Media {
 public:
-    Movie(const MetadataMap& metadata, const std::string& content);
-    void play() override;
+  Movie(const MetadataMap& metadata, const std::string& content);
+
+  void play() override;
 
 private:
-  std::string ROT13(const std::string& source);  
+  std::string ROT13(const std::string& source);
 };
-
-#endif

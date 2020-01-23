@@ -1,6 +1,6 @@
 #include "playmode.h"
 
-void SequenceMode::play_mode(const std::vector<std::shared_ptr<Playable>> &playables) {
+void SequenceMode::play_mode(const std::vector<std::shared_ptr<Playable>>& playables) {
   for (const std::shared_ptr<Playable>& playable: playables) {
     playable->play();
   }
@@ -8,17 +8,17 @@ void SequenceMode::play_mode(const std::vector<std::shared_ptr<Playable>> &playa
 
 ShuffleMode::ShuffleMode(int seed) : random_engine(seed) {}
 
-void ShuffleMode::play_mode(const std::vector<std::shared_ptr<Playable>> &playables) {   
+void ShuffleMode::play_mode(const std::vector<std::shared_ptr<Playable>>& playables) {
   std::vector<size_t> indexes(playables.size());
   std::iota(indexes.begin(), indexes.end(), 0);
 
   std::shuffle(indexes.begin(), indexes.end(), random_engine);
-  for(const auto& i: indexes) {
+  for (const auto& i: indexes) {
     playables[i]->play();
   }
 }
 
-void OddEvenMode::play_mode(const std::vector<std::shared_ptr<Playable>> &playables) {
+void OddEvenMode::play_mode(const std::vector<std::shared_ptr<Playable>>& playables) {
   for (unsigned long i = 1; i < playables.size(); i += 2) {
     playables[i]->play();
   }

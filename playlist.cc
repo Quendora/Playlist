@@ -9,18 +9,18 @@ Playlist::Playlist(const std::string& playListName) {
 }
 
 void Playlist::add(const std::shared_ptr<Playable>& playable) {
-  if(checkForCycleBeforeAdding(playable)) {
+  if (checkForCycleBeforeAdding(playable)) {
     throw CycleFound();
   }
-  
+
   playables.push_back(playable);
 }
 
 void Playlist::add(const std::shared_ptr<Playable>& playable, unsigned int position) {
-  if(position > playables.size()) {
+  if (position > playables.size()) {
     throw PlaylistOutOfRange();
   }
-  if(checkForCycleBeforeAdding(playable)) {
+  if (checkForCycleBeforeAdding(playable)) {
     throw CycleFound();
   }
   playables.insert(playables.begin() + position, playable);
@@ -31,7 +31,7 @@ void Playlist::remove() {
 }
 
 void Playlist::remove(unsigned int position) {
-  if(position >= playables.size()) {
+  if (position >= playables.size()) {
     throw PlaylistOutOfRange();
   }
   playables.erase(playables.begin() + position);
@@ -42,7 +42,7 @@ void Playlist::setMode(const std::shared_ptr<PlayMode> playMode) {
 }
 
 void Playlist::play() {
-    std::cout << "Playlist [" + name + "]\n";
+  std::cout << "Playlist [" + name + "]\n";
   mode->play_mode(playables);
 }
 
@@ -51,12 +51,12 @@ bool Playlist::checkForCycleBeforeAdding(const std::shared_ptr<Playable>& playab
 }
 
 bool Playlist::checkForCycle(const Playable* const playable) const {
-  if(this == playable) {
+  if (this == playable) {
     return true;
   }
 
-  for(const auto& el : playables) {
-    if(el->checkForCycle(playable)) {
+  for (const auto& el : playables) {
+    if (el->checkForCycle(playable)) {
       return true;
     }
   }
