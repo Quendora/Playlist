@@ -6,6 +6,8 @@ using MetadataMap = std::unordered_map<std::string, std::string>;
 
 class Playable {
 public:
+  virtual ~Playable() = default;
+
   virtual void play() = 0;
 
   virtual bool checkForCycle(const Playable* const playable) const = 0;
@@ -14,6 +16,7 @@ public:
 class Media : public Playable {
 public:
   Media(const MetadataMap& metadata, const std::string& content);
+  virtual ~Media() = default;
 
   virtual void play() = 0;
 
